@@ -89,8 +89,6 @@ export const QUERY_ACTIVITIES = gql`
     _id
     title
     scenarioText
-    choices
-    explanation
     category
   }
 }`;

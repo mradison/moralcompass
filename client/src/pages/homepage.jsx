@@ -23,15 +23,16 @@ function Homepage() {
   return (
     <main className="main">
       <h1>Moral Compass</h1>
-      <h3>Practice ethical choices through real-life scenarios</h3>
+      <h3>Choose a scenario to begin</h3>
 
       <div className="homepageLayout">
         {scenarios.map((scenario) => (
           <div key={scenario._id} className="scenarioCard">
-            <h2>{scenario.title || 'Untitled scenario'}</h2>
-            <p>{scenario.scenarioText || 'No scenario text yet.'}</p>
-            <p>{scenario.category || 'Uncategorized'}</p>
-            <Link to={`/scenario/${scenario._id}`}>Answer scenario</Link>
+            <h2>{scenario.title}</h2>
+            <p>{scenario.scenarioText}</p>
+            <Link to={`/scenario/${scenario._id}`} className="startBtn">
+              Start
+            </Link>
           </div>
         ))}
       </div>

@@ -1,62 +1,43 @@
-import { useQuery } from '@apollo/client';
-import { useParams } from 'react-router-dom';
-import { QUERY_SINGLE_ACTIVITY } from '../utils/queries';
+import { gql, useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
 
-const SingleActivity = () => {
-  const { activityid } = useParams();
-
-  const { loading, data, error } = useQuery(QUERY_SINGLE_ACTIVITY, {
-    variables: { activityid },
-  });
-
-  const activity = data?.activity || null;
-
-  if (loading) {
-    return <div>Loading scenario...</div>;
+const GET_ACTIVITIES = gql`
+  query GetActivities {
+    activities {
+      _id
+      title
+      scenarioText
+      category
+    }
   }
+`;
 
-  if (error) {
-    return <div>Something went wrong loading this scenario.</div>;
-  }
+function Homepage() {
+  const { loading, error, data } = useQuery(GET_ACTIVITIES);
 
-  if (!activity) {
-    return <div>Scenario not found.</div>;
-  }
+  if (loading) return <p>Loading scenarios...</p>;
+  if (error) return <p>Error loading scenarios.</p>;
+
+  const scenarios = data?.activities ?? [];
 
   return (
-    <main style={{ padding: '20px' }}>
-      <h1>{activity.title || 'Untitled Scenario'}</h1>
+    <main className="main">
+      <h1>Moral Compass</h1>
+      <h3>Choose a scenario to begin</h3>
 
-      <p style={{ marginTop: '15px' }}>
-        {activity.scenarioText || activity.description || 'No scenario text yet.'}
-      </p>
-
-      {activity.category && (
-        <p>
-          <strong>Category:</strong> {activity.category}
-        </p>
-      )}
-
-      <h2 style={{ marginTop: '25px' }}>Choices</h2>
-
-      {activity.choices && activity.choices.length > 0 ? (
-        <ul>
-          {activity.choices.map((choice, index) => (
-            <li key={index}>{choice}</li>
-          ))}
-        </ul>
-      ) : (
-        <p>No choices added yet.</p>
-      )}
-
-      {activity.explanation && (
-        <div style={{ marginTop: '25px' }}>
-          <h2>Explanation</h2>
-          <p>{activity.explanation}</p>
-        </div>
-      )}
+      <div className="homepageLayout">
+        {scenarios.map((scenario) => (
+          <div key={scenario._id} className="scenarioCard">
+            <h2>{scenario.title}</h2>
+            <p>{scenario.scenarioText}</p>
+            <Link to={`/scenario/${scenario._id}`} className="startBtn">
+              Start
+            </Link>
+          </div>
+        ))}
+      </div>
     </main>
   );
-};
+}
 
-export default SingleActivity;
+export default Homepage;
