@@ -29,9 +29,9 @@ export default defineConfig({
 
       // standard web app manifest
       manifest: {
-        name: 'BridgeCRM',
-        short_name: 'BridgeCRM',
-        description: 'A PWA CRM made with MERN stack',
+        name: 'MoralCompass',
+        short_name: 'MoralCompass',
+        description: 'A PWA MoralCompass made with MERN stack',
         theme_color: '#ffffff',
         start_url: '/',
         icons: [

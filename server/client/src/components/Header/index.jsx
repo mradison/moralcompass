@@ -8,7 +8,7 @@ const Header = () => {
     <header>
         <Link className="headerLink" to="/">
           <h1 className="headerName">
-            Bridge CRM
+            Moral Compass
           </h1>
         </Link>        
     </header>

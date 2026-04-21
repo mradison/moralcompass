@@ -6,7 +6,7 @@ function Homepage({ TasksValue }) {
 
     return(
         <main className='main'>
-                <h1>Bridge CRM</h1>
+                <h1>Moral Compass</h1>
                 <h3>The working person's Customer Relationship Management tool</h3>
             <div className='homepageLayout'>
                 <div className='leftColumn'>

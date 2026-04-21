@@ -44,7 +44,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <h4 className="copyright">&copy; {new Date().getFullYear()} - Bridge CRM</h4>
+          <h4 className="copyright">&copy; {new Date().getFullYear()} - Moral Compass</h4>
         </div>
       </div>
     </footer>

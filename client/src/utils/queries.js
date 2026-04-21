@@ -62,7 +62,6 @@ query getSingleContact($contactid: ID!) {
     country
     zip
     website
-
   }
 }`;
 
@@ -85,13 +84,14 @@ query getSingleGroup($groupid: ID!) {
 }`;
 
 export const QUERY_ACTIVITIES = gql`
- {
+{
   activities {
     _id
-    type
-    subject
-    description
-    activitydate
+    title
+    scenarioText
+    choices
+    explanation
+    category
   }
 }`;
 
@@ -99,9 +99,10 @@ export const QUERY_SINGLE_ACTIVITY = gql`
 query getSingleActivity($activityid: ID!) {
   activity(activityid: $activityid) {
     _id
-    type
-    subject
-    description
-    activitydate
+    title
+    scenarioText
+    choices
+    explanation
+    category
   }
 }`;

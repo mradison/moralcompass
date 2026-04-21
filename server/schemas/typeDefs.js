@@ -47,20 +47,36 @@ const typeDefs = `
     description: String
   }
 
+  # Keep the old CRM fields so the current app does not break,
+  # but add new fields for Moral Compass scenarios.
   type Activities {
     _id: ID
-    type: String!
+    type: String
     subject: String
     description: String
     activitydate: String
+
+    title: String
+    scenarioText: String
+    choices: [String]
+    explanation: String
+    category: String
+    createdAt: String
   }
 
   type Activity {
     _id: ID
-    type: String!
+    type: String
     subject: String
     description: String
     activitydate: String
+
+    title: String
+    scenarioText: String
+    choices: [String]
+    explanation: String
+    category: String
+    createdAt: String
   }
 
   type Auth {
@@ -92,13 +108,20 @@ const typeDefs = `
     description: String
   }
 
+  # Keep the old fields plus the new scenario fields.
   input inputactivityInfo {
-    type: String!
+    type: String
     subject: String
     description: String
     activitydate: String
-  }
 
+    title: String
+    scenarioText: String
+    choices: [String]
+    explanation: String
+    category: String
+    createdAt: String
+  }
 
   type Query {
     users: [User]
@@ -111,19 +134,18 @@ const typeDefs = `
     activities: [Activities]
   }
 
-
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addContact( newContact: inputcontactInfo ): Contact
-    addActivity( newActivity: inputactivityInfo): Activity
-    addGroup( newGroup: inputgroupInfo ): Group
-    updatecontactGroup( newGroupInfo: inputgroupInfo, contactId: ID!): Contact
-    updatecontactActivity( newActivityInfo: inputactivityInfo, contactId: ID!): Contact
-    deleteContact(contactid: ID!): Contact 
+    addContact(newContact: inputcontactInfo): Contact
+    addActivity(newActivity: inputactivityInfo): Activity
+    addGroup(newGroup: inputgroupInfo): Group
+    updatecontactGroup(newGroupInfo: inputgroupInfo, contactId: ID!): Contact
+    updatecontactActivity(newActivityInfo: inputactivityInfo, contactId: ID!): Contact
+    deleteContact(contactid: ID!): Contact
     deleteActivity(activityid: ID!): Activity
     deleteGroup(groupid: ID!): Group
-    updateContactInfo(newContactInfo: inputcontactInfo, contactid: ID!): Contact 
+    updateContactInfo(newContactInfo: inputcontactInfo, contactid: ID!): Contact
     updateActivityInfo(newActivityInfo: inputactivityInfo, activityid: ID!): Activity
     updateGroupInfo(newGroupInfo: inputgroupInfo, groupid: ID!): Group
   }
