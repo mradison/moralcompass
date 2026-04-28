@@ -1,4 +1,4 @@
-require('dotenv').config();            // 1) ensure env vars are loaded
+require('dotenv').config();
 const express = require('express');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
@@ -8,7 +8,7 @@ const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 const server = new ApolloServer({ typeDefs, resolvers });
@@ -20,7 +20,6 @@ const startApolloServer = async () => {
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
 
-    // context can be a function; authMiddleware should accept ({ req }) and return context
     app.use('/graphql', expressMiddleware(server, {
       context: authMiddleware
     }));
@@ -32,14 +31,23 @@ const startApolloServer = async () => {
       });
     }
 
-app.listen(PORT, () => {
-  console.log(`API server running on port ${PORT}!`);
-});
+    // ✅ Start server immediately
+    app.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+    });
 
-db.once('open', () => {
-  console.log('MongoDB connected');
-});
+    // ✅ Log DB connection (don’t block startup)
+    db.once('open', () => {
+      console.log('MongoDB connected');
+    });
 
+  } catch (err) {
+    console.error('Failed to start Apollo Server', err);
+    process.exit(1);
+  }
+};
+
+// ✅ Call it OUTSIDE the function
 startApolloServer();
 
 // optional: graceful shutdown
