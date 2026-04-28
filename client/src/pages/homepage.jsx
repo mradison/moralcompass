@@ -22,15 +22,34 @@ function Homepage() {
 
   return (
     <main className="main">
-      <h1>Moral Compass</h1>
-      <h3>Choose a scenario to begin</h3>
+      
+      {/* 🟢 HERO SECTION (Duolingo style) */}
+      <div className="hero">
+        <h1 className="heroTitle">Moral Compass</h1>
+        <p className="heroSubtitle">
+          Build better habits through real-life ethical decisions
+        </p>
 
+        {scenarios.length > 0 && (
+          <Link
+            to={`/scenario/${scenarios[0]._id}`}
+            className="heroBtn"
+          >
+            Start Learning
+          </Link>
+        )}
+      </div>
+
+      {/* 🟢 SCENARIO LIST */}
       <div className="homepageLayout">
         {scenarios.map((scenario) => (
           <div key={scenario._id} className="scenarioCard">
             <h2>{scenario.title}</h2>
             <p>{scenario.scenarioText}</p>
-            <Link to={`/scenario/${scenario._id}`} className="startBtn">
+            <Link
+              to={`/scenario/${scenario._id}`}
+              className="startBtn"
+            >
               Start
             </Link>
           </div>

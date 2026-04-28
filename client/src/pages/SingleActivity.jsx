@@ -1,43 +1,80 @@
-import { gql, useQuery } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { QUERY_SINGLE_ACTIVITY } from '../utils/queries';
 
-const GET_ACTIVITIES = gql`
-  query GetActivities {
-    activities {
-      _id
-      title
-      scenarioText
-      category
-    }
-  }
-`;
+const SingleActivity = () => {
+  const { activityid } = useParams();
+  const { loading, data, error } = useQuery(QUERY_SINGLE_ACTIVITY, {
+    variables: { activityid },
+  });
 
-function Homepage() {
-  const { loading, error, data } = useQuery(GET_ACTIVITIES);
+  const activity = data?.activity || {};
+  const [selectedChoice, setSelectedChoice] = useState(null);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [xp, setXp] = useState(0);
+  const [streak, setStreak] = useState(1);
 
-  if (loading) return <p>Loading scenarios...</p>;
-  if (error) return <p>Error loading scenarios.</p>;
+  if (loading) return <p>Loading scenario...</p>;
+  if (error) return <p>Could not load this scenario.</p>;
 
-  const scenarios = data?.activities ?? [];
+  const handleChoice = () => {
+    if (showFeedback) return;
+    setShowFeedback(true);
+    setXp((prev) => prev + 10);
+    setStreak((prev) => prev + 1);
+  };
 
   return (
     <main className="main">
-      <h1>Moral Compass</h1>
-      <h3>Choose a scenario to begin</h3>
+      <div className="gameHeader">
+        <div className="gameStat">🔥 Streak: {streak}</div>
+        <div className="gameStat">⭐ XP: {xp}</div>
+      </div>
 
-      <div className="homepageLayout">
-        {scenarios.map((scenario) => (
-          <div key={scenario._id} className="scenarioCard">
-            <h2>{scenario.title}</h2>
-            <p>{scenario.scenarioText}</p>
-            <Link to={`/scenario/${scenario._id}`} className="startBtn">
-              Start
-            </Link>
+      <div className="progressWrap">
+        <div className="progressBar">
+          <div className="progressFill" />
+        </div>
+        <p className="progressText">Lesson 1 of 1</p>
+      </div>
+
+      <div className="scenarioCard scenarioCardGame">
+        <h1>{activity.title || 'Untitled Scenario'}</h1>
+        <p className="scenarioText">
+          {activity.scenarioText || activity.description || 'No scenario text yet.'}
+        </p>
+
+        <h3>What would you do?</h3>
+
+        <div className="choices">
+          {activity.choices?.length > 0 ? (
+            activity.choices.map((choice, index) => (
+              <button
+                key={index}
+                className={`choiceBtn ${selectedChoice === choice ? 'choiceSelected' : ''}`}
+                onClick={() => {
+                  setSelectedChoice(choice);
+                  handleChoice();
+                }}
+              >
+                {choice}
+              </button>
+            ))
+          ) : (
+            <p>No choices added yet.</p>
+          )}
+        </div>
+
+        {showFeedback && (
+          <div className="explanationBox fadeIn">
+            <h2>Nice work</h2>
+            <p>{activity.explanation || 'Reflection helps you grow.'}</p>
           </div>
-        ))}
+        )}
       </div>
     </main>
   );
-}
+};
 
-export default Homepage;
+export default SingleActivity;
