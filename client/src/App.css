@@ -1,129 +1,78 @@
-/* Root container */
+/* ================= ROOT ================= */
 #root {
   margin: 0 auto;
-  text-align: center;
   width: 100%;
   max-width: 1100px;
   padding: 1rem;
+  text-align: center;
 }
 
-/* Main app layout */
-.app {
+/* ================= APP ================= */
+.App {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
   min-height: 100vh;
 }
 
-/* Logo styling */
-.logo {
-  height: auto;
-  max-height: 6rem;
-  width: min(40%, 240px);
-  padding: 1rem;
-  will-change: filter;
-  transition: filter 300ms, transform 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-  transform: scale(1.05);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-/* Logo animation */
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Respect user reduced motion settings */
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-/* Card styling */
-.card {
-  padding: 1rem;
-  margin: 0.5rem;
-  border-radius: 8px;
-  background: #202020;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-  max-width: 500px;
-  width: 100%;
-}
-
-/* Helper text */
-.read-the-docs {
-  color: #888;
-  font-size: 0.95rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  #root {
-    padding: 0.75rem;
-  }
-
-  .logo {
-    width: min(50%, 180px);
-    max-height: 4.5rem;
-  }
-
-  .card {
-    padding: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  #root {
-    padding: 0.5rem;
-  }
-
-  .logo {
-    width: min(60%, 150px);
-    max-height: 3.5rem;
-  }
-
-  .card {
-    padding: 0.5rem;
-  }
-}
-
+/* ================= MAIN ================= */
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 80vh;
+  width: 100%;
 }
 
+/* ================= HOMEPAGE ================= */
 .homepageLayout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   margin-top: 30px;
+  width: 100%;
 }
 
 .scenarioCard {
   background: #1f2937;
   padding: 25px;
   border-radius: 20px;
-  width: 350px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
 }
 
+.scenarioCard:hover {
+  transform: translateY(-5px);
+}
+
+.scenarioCard p {
+  color: #d1d5db;
+}
+
+/* ================= HERO ================= */
+.heroTitle {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.heroSubtitle {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.heroBtn {
+  padding: 12px 24px;
+  background: #58cc02;
+  color: white;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ================= BUTTONS ================= */
 .startBtn {
   display: inline-block;
   margin-top: 15px;
@@ -135,27 +84,148 @@
   font-weight: bold;
 }
 
-.choiceBtn {
-  width: 100%;
-  margin: 10px 0;
-  padding: 15px;
-  border-radius: 12px;
-  border: none;
-  background: #22c55e;
-  color: white;
+/* ================= SCENARIO PAGE ================= */
+.scenarioPage {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* ================= PROGRESS BAR ================= */
+.progressBar {
+  height: 10px;
+  background: #eee;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: #58cc02;
+  transition: width 0.3s ease;
+}
+
+/* ================= STATS ================= */
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
   font-weight: bold;
+}
+
+/* ================= CHOICES ================= */
+.choiceBtn {
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  padding: 14px;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+  background: white;
+
+  color: #111827; /* ✅ FIX: visible text */
+
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
 .choiceBtn:hover {
-  background: #16a34a;
-  transform: scale(1.03);
+  border-color: #58cc02;
+  transform: scale(1.02);
 }
 
-.explanationBox {
+/* Correct */
+.choiceBtn.correct {
+  background: #d7f5d7;
+  border-color: #58cc02;
+  color: #065f46; /* ✅ readable green text */
+}
+
+/* Wrong */
+.choiceBtn.wrong {
+  background: #ffd6d6;
+  border-color: #ff4b4b;
+  color: #7f1d1d; /* ✅ readable red text */
+}
+
+/* Disabled */
+.choiceBtn.disabled {
+  opacity: 0.5;
+}
+
+/* ================= FEEDBACK ================= */
+.feedback {
   margin-top: 20px;
   padding: 15px;
-  background: #111827;
   border-radius: 10px;
+  background: #f9f9f9;
+}
+
+.nextBtn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: #58cc02;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.nextBtn:hover {
+  background: #46a302;
+}
+
+/* ================= ADMIN FORM ================= */
+form {
+  width: 100%;
+  margin-top: 20px;
+}
+
+form input,
+form textarea,
+form select {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+form textarea {
+  min-height: 100px;
+}
+
+form button {
+  margin-top: 10px;
+  padding: 12px;
+  width: 100%;
+  background: #58cc02;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #46a302;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .scenarioPage {
+    padding: 15px;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

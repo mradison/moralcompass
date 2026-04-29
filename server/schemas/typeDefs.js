@@ -1,4 +1,6 @@
 const typeDefs = `
+
+  # ================= USERS =================
   type User {
     _id: ID
     username: String
@@ -7,6 +9,7 @@ const typeDefs = `
     contact: [Contact]
   }
 
+  # ================= CONTACTS =================
   type Contact {
     _id: ID
     name: String!
@@ -35,54 +38,53 @@ const typeDefs = `
     description: String
   }
 
-  type Groups {
-    _id: ID
-    name: String!
-    description: String
-  }
-
   type Group {
     _id: ID
     name: String!
     description: String
   }
 
-  # Keep the old CRM fields so the current app does not break,
-  # but add new fields for Moral Compass scenarios.
-  type Activities {
-    _id: ID
-    type: String
-    subject: String
-    description: String
-    activitydate: String
+  # ================= SCENARIO SYSTEM =================
 
-    title: String
-    scenarioText: String
-    choices: [String]
-    explanation: String
-    category: String
-    createdAt: String
+  # ✅ NEW Choice type (matches your Mongo model)
+  type Choice {
+    text: String!
+    isCorrect: Boolean
+    feedback: String
   }
 
+  # ✅ CLEAN Activity type (single source of truth)
   type Activity {
     _id: ID
+
+    # Old CRM fields (optional)
     type: String
     subject: String
     description: String
     activitydate: String
 
-    title: String
-    scenarioText: String
-    choices: [String]
+    # Scenario fields
+    title: String!
+    scenarioText: String!
+    choices: [Choice]
     explanation: String
     category: String
+
+    # ✅ Pro-level fields
+    difficulty: String
+    order: Int
+    xpReward: Int
+
     createdAt: String
   }
 
+  # ================= AUTH =================
   type Auth {
     token: ID!
     user: User
   }
+
+  # ================= INPUTS =================
 
   input inputcontactInfo {
     name: String!
@@ -108,7 +110,14 @@ const typeDefs = `
     description: String
   }
 
-  # Keep the old fields plus the new scenario fields.
+  # ✅ NEW Choice input
+  input ChoiceInput {
+    text: String!
+    isCorrect: Boolean
+    feedback: String
+  }
+
+  # ✅ Updated Activity input
   input inputactivityInfo {
     type: String
     subject: String
@@ -117,34 +126,43 @@ const typeDefs = `
 
     title: String
     scenarioText: String
-    choices: [String]
+    choices: [ChoiceInput]
     explanation: String
     category: String
-    createdAt: String
+
+    difficulty: String
+    order: Int
+    xpReward: Int
   }
 
+  # ================= QUERIES =================
   type Query {
     users: [User]
     user(username: String!): User
     contacts: [Contact]
     contact(contactid: ID!): Contact
     group(groupid: ID!): Group
-    groups: [Groups]
+    groups: [Group]
     activity(activityid: ID!): Activity
-    activities: [Activities]
+    activities: [Activity]
   }
 
+  # ================= MUTATIONS =================
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+
     addContact(newContact: inputcontactInfo): Contact
     addActivity(newActivity: inputactivityInfo): Activity
     addGroup(newGroup: inputgroupInfo): Group
+
     updatecontactGroup(newGroupInfo: inputgroupInfo, contactId: ID!): Contact
     updatecontactActivity(newActivityInfo: inputactivityInfo, contactId: ID!): Contact
+
     deleteContact(contactid: ID!): Contact
     deleteActivity(activityid: ID!): Activity
     deleteGroup(groupid: ID!): Group
+
     updateContactInfo(newContactInfo: inputcontactInfo, contactid: ID!): Contact
     updateActivityInfo(newActivityInfo: inputactivityInfo, activityid: ID!): Activity
     updateGroupInfo(newGroupInfo: inputgroupInfo, groupid: ID!): Group
