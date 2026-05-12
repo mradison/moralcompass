@@ -5,7 +5,7 @@ import './index.css';
 import auth from './utils/auth';
 
 import App from './App.jsx';
-import Homepage from './pages/homepage.jsx';
+import Homepage from './pages/Homepage.jsx';
 import Signup from './pages/Signup.jsx';
 import Groups from './pages/Groups.jsx';
 import GroupSingle from './pages/GroupSingle.jsx';
