@@ -11,8 +11,8 @@ import Groups from './pages/Groups.jsx';
 import GroupSingle from './pages/GroupSingle.jsx';
 import SingleContact from './pages/SingleContact.jsx';
 import Contacts from './pages/Contacts.jsx';
-import Login from './pages/Login';
-import Error from './pages/Error';
+import Login from './pages/Login.jsx';
+import Error from './pages/Error.jsx';
 import ActivitiesPage from './pages/ActivitiesPage.jsx';
 
 import Scenario from './pages/Scenario.jsx';
